@@ -5,14 +5,16 @@ import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 
 contract BNFT is ERC721 {
     uint256 public totalSupply;
+    uint256 public baseUri;
     string public blindBoxBaseURI = "https://youdontknowme.xyz/";
     string public openedBlindBoxBaseURI = "https://iamsorry.xyz/";
     uint private counter;
+    bool private opened;
 
     constructor() ERC721("Blind NFT", "BNFT") {
         totalSupply = 500;
         counter = 0;
-        baseUri = blindBoxBaseURI;
+        opened = false;
     }
 
     function mint() external {
@@ -21,13 +23,21 @@ contract BNFT is ERC721 {
         uint tokenID = uint(keccak256(abi.encodePacked(msg.sender, counter)));
         counter++; 
 
-        _mint(msg.sender, tokenId);
+        _mint(msg.sender, tokenID);
+    }
+
+    function _baseURI() internal view override returns (string memory) {
+        if (opened) {
+            return openedBlindBoxBaseURI;
+        }
+
+        return blindBoxBaseURI;
     }
 
     function openAllBlindBoxes() public {
         require(msg.sender == address(this), "Only owener can open");
 
-        _setBaseURI(openedBlindBoxBaseURI);
+        opened = true;
     }
 }
 
