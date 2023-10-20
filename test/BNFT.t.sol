@@ -33,32 +33,39 @@ contract BNFTTest is Test {
         vm.stopPrank();
     }
 
-    function mintAll() public {
+    function mintUptoTotalSupply() public {
         for (uint256 i=0 ; i< totalSupply; i++) {
             bnft.mint();
         }
     }
 
-    function testBeforeOpenBlindBox() public {
+    function testOpenAllBlindBoxesBefore() public {
         vm.startPrank(user);
-        mintAll();
+        mintUptoTotalSupply();
         assertEq(bnft.tokenURI(123), string.concat(blindBoxBaseURI, Strings.toString(123)));
         vm.stopPrank();
     }
 
-    function testAfterOpenBlindBox() public {
+    function testOpenAllBlindBoxesAfter() public {
         vm.prank(user);
-        mintAll();
+        mintUptoTotalSupply();
         vm.startPrank(address(bnft));
         bnft.openAllBlindBoxes();
         assertEq(bnft.tokenURI(123), string.concat(openedBlindBoxBaseURI, Strings.toString(123)));
         vm.stopPrank();
     }
 
+    function testOpenAllBlindBoxesDeclined() public {
+        vm.startPrank(user);
+        mintUptoTotalSupply();
+        vm.expectRevert("Only owener can open");
+        bnft.openAllBlindBoxes();
+        vm.stopPrank();
+    }
+
     function testMintMoreThanTotalSupply() public {
         vm.startPrank(user);
-        // Mint up to total supply amount
-        mintAll();
+        mintUptoTotalSupply();
         vm.expectRevert("Exceed total supply");
         bnft.mint();
         vm.stopPrank();
