@@ -1,6 +1,6 @@
 # NFT and Blindbox
 
-Implement a NFT with Blindbox mechanism
+Implement an NFT with a Blindbox mechanism
 
 ## NFT
 
@@ -11,7 +11,7 @@ Implement a NFT with Blindbox mechanism
 ## Blindbox mechanism
 
 - User can mint the blind box NFTs with random and unique token IDs from 1 ~ 500
-- User can only mint one blind box at a same time
+- User can only mint one blind box at the same time
 - Contract owner can open all minted blind box at the same time.
 - Each blind box NFT and opened blind box NFT have unique token URI
     - baseURI for Blind box NFTs: https://youdontknowme.xyz
@@ -31,3 +31,6 @@ Implement a NFT with Blindbox mechanism
    ```bash
    forge test
    ```
+## Test Result
+<img width="926" alt="image" src="https://github.com/chiweitw/nft_blindbox/assets/34131145/de1eb5c0-c4fb-481e-b7c8-49a6b4a50a66">
+
