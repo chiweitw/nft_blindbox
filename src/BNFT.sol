@@ -11,21 +11,22 @@ contract BNFT is ERC721 {
     string public openedBlindBoxBaseURI = "https://iamsorry.xyz/";
     uint private counter;
     bool private opened;
+    uint256[] public numbers;
 
     constructor() ERC721("Blind NFT", "BNFT") {
         totalSupply = 500;
+        numbers = new uint256[](500);
         counter = 0;
         opened = false;
+        for (uint256 i = 0; i < totalSupply; i++) {
+            numbers[i] = i + 1;
+        }
     }
 
     function mint() external {
         require(counter < totalSupply, "Exceed total supply");
-
-        uint tokenID = uint(keccak256(abi.encodePacked(address(this), Strings.toString(counter))));
-
-        _mint(msg.sender, tokenID);
-        counter++; 
-
+        uint256 tokenId = getRandomTokenId();
+        _mint(msg.sender, tokenId);
     }
 
     function _baseURI() internal view override returns (string memory) {
@@ -38,8 +39,20 @@ contract BNFT is ERC721 {
 
     function openAllBlindBoxes() public {
         require(msg.sender == address(this), "Only owener can open");
-
         opened = true;
+    }
+
+    function getRandomTokenId() private returns (uint256) {
+        uint256 i = randomNumber() % (500 - counter);
+        uint256 num = numbers[i];
+        counter++; 
+        numbers[i] = numbers[500 - counter];
+
+        return num;
+    }
+
+    function randomNumber() private view returns (uint256) {
+        return uint256(keccak256(abi.encodePacked(block.timestamp, msg.sender, counter)));
     }
 }
 

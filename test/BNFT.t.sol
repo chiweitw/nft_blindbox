@@ -33,30 +33,32 @@ contract BNFTTest is Test {
         vm.stopPrank();
     }
 
+    function mintAll() public {
+        for (uint256 i=0 ; i< totalSupply; i++) {
+            bnft.mint();
+        }
+    }
+
     function testBeforeOpenBlindBox() public {
         vm.startPrank(user);
-        bnft.mint();
-        tokenId = uint(keccak256(abi.encodePacked(address(bnft), Strings.toString(0))));
-        assertEq(bnft.tokenURI(tokenId), string.concat(blindBoxBaseURI, Strings.toString(tokenId)));
+        mintAll();
+        assertEq(bnft.tokenURI(123), string.concat(blindBoxBaseURI, Strings.toString(123)));
         vm.stopPrank();
     }
 
     function testAfterOpenBlindBox() public {
         vm.prank(user);
-        bnft.mint();
+        mintAll();
         vm.startPrank(address(bnft));
         bnft.openAllBlindBoxes();
-        tokenId = uint(keccak256(abi.encodePacked(address(bnft), Strings.toString(0))));
-        assertEq(bnft.tokenURI(tokenId), string.concat(openedBlindBoxBaseURI, Strings.toString(tokenId)));
+        assertEq(bnft.tokenURI(123), string.concat(openedBlindBoxBaseURI, Strings.toString(123)));
         vm.stopPrank();
     }
 
     function testMintMoreThanTotalSupply() public {
         vm.startPrank(user);
         // Mint up to total supply amount
-        for (uint256 i=0 ; i< totalSupply; i++) {
-            bnft.mint();
-        }
+        mintAll();
         vm.expectRevert("Exceed total supply");
         bnft.mint();
         vm.stopPrank();
