@@ -44,7 +44,6 @@ contract BNFTTest is Test {
     function testAfterOpenBlindBox() public {
         vm.prank(user);
         bnft.mint();
-
         vm.startPrank(address(bnft));
         bnft.openAllBlindBoxes();
         tokenId = uint(keccak256(abi.encodePacked(address(bnft), Strings.toString(0))));
