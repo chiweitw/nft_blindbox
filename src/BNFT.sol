@@ -2,6 +2,7 @@
 pragma solidity ^0.8.20;
 
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+import "@openzeppelin/contracts/utils/Strings.sol";
 
 contract BNFT is ERC721 {
     uint256 public totalSupply;
@@ -20,10 +21,11 @@ contract BNFT is ERC721 {
     function mint() external {
         require(counter < totalSupply, "Exceed total supply");
 
-        uint tokenID = uint(keccak256(abi.encodePacked(msg.sender, counter)));
-        counter++; 
+        uint tokenID = uint(keccak256(abi.encodePacked(address(this), Strings.toString(counter))));
 
         _mint(msg.sender, tokenID);
+        counter++; 
+
     }
 
     function _baseURI() internal view override returns (string memory) {
