@@ -9,6 +9,7 @@ contract BNFTTest is Test {
     BNFT public bnft;
     address user;
     uint256 tokenId;
+    uint256 totalSupply = 500;
     string public blindBoxBaseURI = "https://youdontknowme.xyz/";
     string public openedBlindBoxBaseURI = "https://iamsorry.xyz/";
 
@@ -48,6 +49,17 @@ contract BNFTTest is Test {
         bnft.openAllBlindBoxes();
         tokenId = uint(keccak256(abi.encodePacked(address(bnft), Strings.toString(0))));
         assertEq(bnft.tokenURI(tokenId), string.concat(openedBlindBoxBaseURI, Strings.toString(tokenId)));
+        vm.stopPrank();
+    }
+
+    function testMintMoreThanTotalSupply() public {
+        vm.startPrank(user);
+        // Mint up to total supply amount
+        for (uint256 i=0 ; i< totalSupply; i++) {
+            bnft.mint();
+        }
+        vm.expectRevert("Exceed total supply");
+        bnft.mint();
         vm.stopPrank();
     }
 }
