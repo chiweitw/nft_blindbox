@@ -20,4 +20,11 @@ contract BNFTTest is Test {
     function testSymbol() public {
         assertEq(bnft.symbol(), "BNFT");
     }
+
+    function testMint() public {
+        vm.startPrank(user);
+        bnft.mint();
+        assertEq(bnft.balanceOf(user), 1);
+        vm.stopPrank();
+    }
 }
