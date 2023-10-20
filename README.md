@@ -1,66 +1,33 @@
-## Foundry
+# NFT and Blindbox
 
-**Foundry is a blazing fast, portable and modular toolkit for Ethereum application development written in Rust.**
+Implement a NFT with Blindbox mechanism
 
-Foundry consists of:
+## NFT
 
--   **Forge**: Ethereum testing framework (like Truffle, Hardhat and DappTools).
--   **Cast**: Swiss army knife for interacting with EVM smart contracts, sending transactions and getting chain data.
--   **Anvil**: Local Ethereum node, akin to Ganache, Hardhat Network.
--   **Chisel**: Fast, utilitarian, and verbose solidity REPL.
+- name: Blind NFT
+- symbol: BNFT
+- total supply: 500
 
-## Documentation
+## Blindbox mechanism
 
-https://book.getfoundry.sh/
+- User can mint the blind box NFTs with random and unique token IDs from 1 ~ 500
+- User can only mint one blind box at a same time
+- Contract owner can open all minted blind box at the same time.
+- Each blind box NFT and opened blind box NFT have unique token URI
+    - baseURI for Blind box NFTs: https://youdontknowme.xyz
+    - baseURI for opened blind box NFTs: https://iamsorry.xyz
+    - token URI (baseURI + tokenId pairs) are globally unique
 
-## Usage
 
-### Build
+## Get Started
 
-```shell
-$ forge build
-```
+1. Make sure you have Foundry set up. If not, you can refer to the [installation guide](https://book.getfoundry.sh/getting-started/installation).
 
-### Test
-
-```shell
-$ forge test
-```
-
-### Format
-
-```shell
-$ forge fmt
-```
-
-### Gas Snapshots
-
-```shell
-$ forge snapshot
-```
-
-### Anvil
-
-```shell
-$ anvil
-```
-
-### Deploy
-
-```shell
-$ forge script script/Counter.s.sol:CounterScript --rpc-url <your_rpc_url> --private-key <your_private_key>
-```
-
-### Cast
-
-```shell
-$ cast <subcommand>
-```
-
-### Help
-
-```shell
-$ forge --help
-$ anvil --help
-$ cast --help
-```
+2. Run the following command to install the required dependencies:
+   ```bash
+   forge install
+   ```
+3. Run the following command to run the tests:
+   ```bash
+   forge test
+   ```
