@@ -32,5 +32,6 @@ Implement an NFT with a Blindbox mechanism
    forge test
    ```
 ## Test Result
-<img width="926" alt="image" src="https://github.com/chiweitw/nft_blindbox/assets/34131145/de1eb5c0-c4fb-481e-b7c8-49a6b4a50a66">
+<img width="930" alt="image" src="https://github.com/chiweitw/nft_blindbox/assets/34131145/a6748a12-1c76-464e-99ad-1244c48454c8">
+
 
