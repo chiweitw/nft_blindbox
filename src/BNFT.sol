@@ -39,6 +39,7 @@ contract BNFT is ERC721 {
 
     function openAllBlindBoxes() public {
         require(msg.sender == address(this), "Only owener can open");
+        require(counter >= totalSupply, "Still have unminted boxes");
         opened = true;
     }
 

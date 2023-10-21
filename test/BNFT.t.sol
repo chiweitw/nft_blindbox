@@ -70,6 +70,13 @@ contract BNFTTest is Test {
         bnft.mint();
         vm.stopPrank();
     }
+
+    function testOpenAllBlindBoxedOnlyWhenReachTotalSupply() public {
+        vm.startPrank(address(bnft));
+        vm.expectRevert("Still have unminted boxes");
+        bnft.openAllBlindBoxes();
+        vm.stopPrank();
+    }
 }
 
 
