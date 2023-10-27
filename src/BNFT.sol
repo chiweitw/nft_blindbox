@@ -18,6 +18,8 @@ contract BNFT is ERC721 {
         numbers = new uint256[](500);
         counter = 0;
         opened = false;
+
+        // make numbers become an array containing numbers from 1 to 500 in ascending order,
         for (uint256 i = 0; i < totalSupply; i++) {
             numbers[i] = i + 1;
         }
@@ -44,15 +46,28 @@ contract BNFT is ERC721 {
     }
 
     function getRandomTokenId() private returns (uint256) {
+        // Random pick a index from 0 to 500 - counter
+        // 1st time pick the index, 0 - 500
+        // 2nd time pick the index, 0 - 499
         uint256 i = randomNumber() % (500 - counter);
+
+        //  assign the random picked number to num for return
         uint256 num = numbers[i];
+
+        // increment counter
         counter++; 
+
+        // Replace the number of index with the last numbers
+        // 1st time, counter = 0, last number is numbers[0]
+        // 2nd time, counter = 1, last number is numbers[499] 
         numbers[i] = numbers[500 - counter];
 
+        // return the random number
         return num;
     }
 
     function randomNumber() private view returns (uint256) {
+        // use block.timestam and other parameters to make a temporaily random number.
         return uint256(keccak256(abi.encodePacked(block.timestamp, msg.sender, counter)));
     }
 }
